@@ -31,20 +31,20 @@ import { useSelector } from "react-redux";
 const forumData = [
   {
     id: "1",
-    title: "Amazing Coffee Maker",
+    title: "Crystal Clear Quartz",
+    ethPrice: "1.32ETH",
+    price: "$3284.13",
     description:
       "A top-of-the-line coffee maker with various features to make the perfect coffee.",
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAzyo7UIjEHLUVRGxuy1C7m-W16W6XL4UBw&s",
-    price: "$199.99",
-    rating: 4.5,
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Quartz_oisan.jpg/250px-Quartz_oisan.jpg",
   },
   {
     id: "2",
     title: "Wireless Headphones",
     description: "High-quality sound with noise-cancellation features.",
     image:
-      "https://static-01.daraz.com.np/p/9142ccf4acd35f0de87ca8991f5f6d11.jpg",
+      "https://www.logocrystal.com/pt/data/upload/admin/20181119/5bf276312ee48.JPG",
     price: "$149.99",
     rating: 4.2,
   },
@@ -53,7 +53,8 @@ const forumData = [
     title: "Smart Watch",
     description:
       "Track your fitness and notifications with a stylish smartwatch.",
-    image: "https://m.media-amazon.com/images/I/7161CULzh+L.jpg",
+    image:
+      "https://cdn.shopify.com/s/files/1/0273/4214/3566/files/bigstock-Red-Diamond-On-Black-Backgroun-7398784.jpg?v=1619017505",
     price: "$99.99",
     rating: 4.7,
   },
@@ -74,34 +75,58 @@ const HomePage = () => {
   // };
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.card}>
+      <View
+        style={[
+          {
+            marginTop: 20,
+            // backgroundColor: "#fff",
+
+            borderRadius: 20,
+            marginRight: 15,
+            width: 200,
+            aspectRatio: 1,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            elevation: 5,
+            position: "relative",
+          },
+        ]}
+      >
         <Image source={{ uri: item.image }} style={styles.cardImage} />
         <View
           style={{
             marginHorizontal: 10,
+            position: "absolute",
           }}
         >
-          <Text
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#212121",
+              padding: 6,
+              borderRadius: 20,
+              right: -160,
+              top: 10,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#fcbc58",
+                width: 5,
+                aspectRatio: 1,
+                borderRadius: 20,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              typography().heading3,
-              typography(isDark ? "dark" : "light").textColor,
+              buttonStyles(isDark ? "dark" : "light", "2xl").secondary,
+              { paddingVertical: 20 },
             ]}
           >
-            {item.title}
-          </Text>
-
-          <Text style={[typography(isDark ? "dark" : "light").textDescColor]}>
-            {item.description}
-          </Text>
-
-          <Text style={styles.cardPrice}>{item.price}</Text>
-
-          <View style={styles.ratingContainer}>
-            <Text style={styles.ratingText}>Rating: {item.rating}</Text>
-          </View>
-
-          <TouchableOpacity style={styles.seeMoreButton}>
-            <Text style={styles.seeMoreButtonText}>See More</Text>
+            <Text style={[buttonStyles().secondaryText]}>Bid</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -306,7 +331,7 @@ const HomePage = () => {
               typography(isDark ? "dark" : "light").textColor,
             ]}
           >
-            Forum
+            Live Auction
           </Text>
           <FlatList
             data={forumData}
@@ -324,7 +349,25 @@ const HomePage = () => {
               typography(isDark ? "dark" : "light").textColor,
             ]}
           >
-            News
+            Hot Bids
+          </Text>
+          <FlatList
+            data={forumData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.flatListContent}
+          />
+        </View>
+        <View style={styles.container}>
+          <Text
+            style={[
+              typography().heading2,
+              typography(isDark ? "dark" : "light").textColor,
+            ]}
+          >
+            Explore
           </Text>
           <FlatList
             data={forumData}
@@ -356,26 +399,11 @@ const styles = StyleSheet.create({
   flatListContent: {
     paddingHorizontal: 10,
   },
-  card: {
-    marginTop: 20,
-    // backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 20,
-    marginRight: 15,
-    width: 250,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
-  },
+  card: {},
   cardImage: {
     width: "100%",
-    height: 150,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    marginBottom: 10,
+    height: "100%",
+    borderRadius: 20,
   },
   cardTitle: {
     fontSize: 16,
@@ -402,13 +430,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#FFD700",
   },
-  seeMoreButton: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 10,
-    borderRadius: 20,
-    marginBottom: 10,
-    alignItems: "center",
-  },
+  seeMoreButton: {},
   seeMoreButtonText: {
     color: "#fff",
     fontWeight: "bold",
