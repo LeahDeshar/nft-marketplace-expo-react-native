@@ -7,12 +7,12 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { Header } from "../newpost";
 import { globalStyles, typography } from "@/styles/styles";
 import { useSelector } from "react-redux";
 import { useNavigation } from "expo-router";
 import { RootState } from "@/redux/store";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Header } from "../profile";
 
 const ChatPage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);

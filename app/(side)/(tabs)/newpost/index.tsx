@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  FlatList,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,66 +14,109 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { RootState } from "@/redux/store";
 import { buttonStyles, globalStyles, typography } from "@/styles/styles";
-import { Picker } from "@react-native-picker/picker";
-import DropDownPicker from "react-native-dropdown-picker";
 
+import { Header } from "../profile";
+
+const forumData = [
+  {
+    id: "1",
+    title: "Crystal Clear Quartz",
+    ethPrice: "1.32ETH",
+    price: "$3284.13",
+    description:
+      "A top-of-the-line coffee maker with various features to make the perfect coffee.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Quartz_oisan.jpg/250px-Quartz_oisan.jpg",
+  },
+  {
+    id: "2",
+    title: "Wireless Headphones",
+    description: "High-quality sound with noise-cancellation features.",
+    image:
+      "https://www.logocrystal.com/pt/data/upload/admin/20181119/5bf276312ee48.JPG",
+    price: "$149.99",
+    rating: 4.2,
+  },
+  {
+    id: "3",
+    title: "Smart Watch",
+    description:
+      "Track your fitness and notifications with a stylish smartwatch.",
+    image:
+      "https://cdn.shopify.com/s/files/1/0273/4214/3566/files/bigstock-Red-Diamond-On-Black-Backgroun-7398784.jpg?v=1619017505",
+    price: "$99.99",
+    rating: 4.7,
+  },
+];
 const NewPostPage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
   const navigation = useNavigation();
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [postTitle, setPostTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("event");
-  const [price, setPrice] = useState("");
-  const [isPinned, setIsPinned] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Event", value: "event" },
-    { label: "Banana", value: "banana" },
-    { label: "Pear", value: "pear" },
-  ]);
-  const handleSelectImage = async () => {
-    try {
-      const permissionResult =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const renderItem = ({ item }) => {
+    return (
+      <View
+        style={[
+          {
+            marginTop: 20,
+            // backgroundColor: "#fff",
 
-      if (!permissionResult.granted) {
-        Alert.alert(
-          "Permission required",
-          "Permission to access the camera roll is required!"
-        );
-        return;
-      }
-
-      const pickerResult = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        quality: 1,
-      });
-
-      if (!pickerResult.canceled && pickerResult.assets.length > 0) {
-        const firstAsset = pickerResult.assets[0];
-        setSelectedImage(firstAsset.uri); // Update state with selected image URI
-      }
-    } catch (error) {
-      console.error("Error picking an image:", error);
-      Alert.alert("Error", "An error occurred while picking the image.");
-    }
-  };
-
-  const handlePostSubmit = () => {
-    console.log({
-      postTitle,
-      description,
-      category,
-      price,
-      selectedImage,
-      isPinned,
-    });
-
-    Alert.alert("Post Submitted!", "Your post has been successfully created.");
+            borderRadius: 20,
+            marginRight: 15,
+            width: 200,
+            aspectRatio: 1,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            elevation: 5,
+            position: "relative",
+          },
+        ]}
+      >
+        <Image
+          source={{ uri: item.image }}
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: 20,
+          }}
+        />
+        <View
+          style={{
+            marginHorizontal: 10,
+            position: "absolute",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#212121",
+              padding: 6,
+              borderRadius: 20,
+              right: -160,
+              top: 10,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#fcbc58",
+                width: 5,
+                aspectRatio: 1,
+                borderRadius: 20,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              buttonStyles(isDark ? "dark" : "light", "2xl").secondary,
+              { paddingVertical: 20 },
+            ]}
+          >
+            <Text style={[buttonStyles().secondaryText]}>Bid</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -83,132 +127,54 @@ const NewPostPage = () => {
       ]}
     >
       <Header isDark={isDark} />
-
-      <ImageUpload
-        selectedImage={selectedImage}
-        handleSelectImage={handleSelectImage}
-      />
-
-      <TextInput
-        placeholder="Enter Post Title"
-        value={postTitle}
-        onChangeText={setPostTitle}
-        style={[styles.inputField, { marginTop: 20 }]}
-      />
-
-      <TextInput
-        placeholder="Describe your post"
-        value={description}
-        onChangeText={setDescription}
-        style={[styles.inputField]}
-        multiline
-      />
-
       <View
         style={{
-          paddingVertical: 20,
+          paddingVertical: 30,
         }}
       >
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          multiple={true}
-          placeholder={"Select the category"}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <TextInput
-          placeholder="Price (if applicable)"
-          value={price}
-          onChangeText={setPrice}
-          keyboardType="numeric"
-          style={styles.inputField}
-          placeholderTextColor={"grey"}
-        />
-        <View style={[buttonStyles().outline, globalStyles().containerFlexRow]}>
-          <Text
-            style={[
-              styles.pinToggleText,
-              typography(isDark ? "dark" : "light").textColor,
-            ]}
-          >
-            Pin Post
-          </Text>
-          <TouchableOpacity
-            onPress={() => setIsPinned((prev) => !prev)}
-            style={styles.pinToggleButton}
-          >
-            <Ionicons
-              name={isPinned ? "pin" : "pin-outline"}
-              size={24}
-              color={isPinned ? "gold" : "gray"}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Submit Button */}
-      <TouchableOpacity onPress={handlePostSubmit} style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>Submit Post</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-export const Header = ({ isDark }) => {
-  return (
-    <View
-      style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
-    >
-      <View
-        style={[
-          globalStyles(isDark ? "dark" : "light", 0, 0, 12).containerFlexRow,
-        ]}
-      >
-        <Image
-          source={{
-            uri: "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=",
-          }}
-          style={styles.profileImage}
-        />
-        <TouchableOpacity>
-          <Ionicons name="notifications" size={25} color="white" />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <Text style={[typography(isDark ? "dark" : "light").textColor]}>
-          Good Morning
+        <Text
+          style={[
+            typography().heading2,
+            typography(isDark ? "dark" : "light").textColor,
+          ]}
+        >
+          Hot Bids
         </Text>
+        <FlatList
+          data={forumData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: 10,
+          }}
+        />
       </View>
-    </View>
-  );
-};
-
-const ImageUpload = ({ selectedImage, handleSelectImage }) => {
-  return (
-    <View style={styles.imageUploadContainer}>
-      <TouchableOpacity
-        onPress={handleSelectImage}
-        style={styles.imageUploadButton}
+      <View
+        style={{
+          paddingVertical: 30,
+        }}
       >
-        <View style={styles.imageUploadInnerContainer}>
-          {selectedImage ? (
-            <Image
-              source={{ uri: selectedImage }}
-              style={styles.selectedImage}
-            />
-          ) : (
-            <Ionicons name="camera-outline" size={40} color="#aaa" />
-          )}
-        </View>
-      </TouchableOpacity>
-      {selectedImage && (
-        <Text style={styles.imageSelectedText}>Image Selected!</Text>
-      )}
+        <Text
+          style={[
+            typography().heading2,
+            typography(isDark ? "dark" : "light").textColor,
+          ]}
+        >
+          Explore
+        </Text>
+        <FlatList
+          data={forumData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: 10,
+          }}
+        />
+      </View>
     </View>
   );
 };

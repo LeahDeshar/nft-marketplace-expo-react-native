@@ -18,7 +18,6 @@ import {
   spacing,
   typography,
 } from "@/styles/styles";
-import { Header } from "../newpost";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useNavigation } from "expo-router";
@@ -28,6 +27,7 @@ import { TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Button from "@/components/AppButton";
 import DropDownPicker from "react-native-dropdown-picker";
+import { Header } from "../profile";
 
 const { width } = Dimensions.get("window");
 

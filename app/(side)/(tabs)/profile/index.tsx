@@ -8,11 +8,17 @@ import {
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { RootState } from "@/redux/store";
-import { buttonStyles, globalStyles, typography } from "@/styles/styles";
+import {
+  buttonStyles,
+  getRadius,
+  globalStyles,
+  PaddingStyles,
+  typography,
+} from "@/styles/styles";
 import { Picker } from "@react-native-picker/picker";
 import DropDownPicker from "react-native-dropdown-picker";
 
@@ -161,6 +167,30 @@ const NewProfilePage = () => {
 
 export const Header = ({ isDark }) => {
   return (
+    // <View
+    //   style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
+    // >
+    //   <View
+    //     style={[
+    //       globalStyles(isDark ? "dark" : "light", 0, 0, 12).containerFlexRow,
+    //     ]}
+    //   >
+    //     <Image
+    //       source={{
+    //         uri: "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=",
+    //       }}
+    //       style={styles.profileImage}
+    //     />
+    //     <TouchableOpacity>
+    //       <Ionicons name="notifications" size={25} color="white" />
+    //     </TouchableOpacity>
+    //   </View>
+    //   <View>
+    //     <Text style={[typography(isDark ? "dark" : "light").textColor]}>
+    //       Good Morning
+    //     </Text>
+    //   </View>
+    // </View>
     <View
       style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
     >
@@ -170,19 +200,101 @@ export const Header = ({ isDark }) => {
         ]}
       >
         <Image
-          source={{
-            uri: "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=",
+          source={require("../../../../assets/images/logo/logo.png")}
+          style={{
+            width: 15,
+            height: 15,
+            resizeMode: "contain",
           }}
-          style={styles.profileImage}
         />
+
         <TouchableOpacity>
-          <Ionicons name="notifications" size={25} color="white" />
+          <Text
+            style={[
+              typography().heading2,
+              typography(isDark ? "dark" : "light").textColor,
+              typography().primaryRegularFont,
+            ]}
+          >
+            NFT
+          </Text>
         </TouchableOpacity>
       </View>
-      <View>
-        <Text style={[typography(isDark ? "dark" : "light").textColor]}>
-          Good Morning
-        </Text>
+
+      <View
+        style={[
+          globalStyles(isDark ? "dark" : "light", 0, 0, 12).containerFlexRow,
+        ]}
+      >
+        <TouchableOpacity
+          style={[
+            globalStyles(isDark ? "dark" : "light").opacityBG,
+            PaddingStyles(0, 10, 10).container,
+
+            {
+              marginRight: 10,
+              borderRadius: getRadius("2xl"),
+              position: "relative",
+            },
+          ]}
+        >
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 1,
+            }}
+          >
+            <Image
+              source={require("../../../../assets/images/logo/logo.png")}
+              style={{
+                width: 10,
+                height: 10,
+                top: 8,
+                tintColor: "white",
+                marginLeft: 20,
+              }}
+            />
+          </View>
+          <Feather
+            name="bell"
+            size={20}
+            style={[globalStyles(isDark ? "dark" : "light").opacityText]}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            globalStyles(isDark ? "dark" : "light").opacityBG,
+            PaddingStyles(0, 10, 10).container,
+
+            {
+              marginRight: 10,
+              borderRadius: getRadius("2xl"),
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}
+        >
+          <MaterialIcons
+            name="currency-bitcoin"
+            size={16}
+            style={[
+              typography(isDark ? "dark" : "light").textColor,
+              { marginRight: 5 },
+            ]}
+          />
+          <Text style={[typography(isDark ? "dark" : "light").textColor]}>
+            6.980
+          </Text>
+          <Text
+            style={[
+              globalStyles(isDark ? "dark" : "light").opacityText,
+              { marginLeft: 5 },
+            ]}
+          >
+            ETH
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
