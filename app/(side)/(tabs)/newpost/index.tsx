@@ -9,7 +9,7 @@ import {
   FlatList,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { RootState } from "@/redux/store";
@@ -58,62 +58,187 @@ const NewPostPage = () => {
         style={[
           {
             marginTop: 20,
-            // backgroundColor: "#fff",
-
             borderRadius: 20,
             marginRight: 15,
-            width: 200,
-            aspectRatio: 1,
+            width: 240,
+            height: "auto",
+            // aspectRatio: 1,
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.3,
             shadowRadius: 5,
             elevation: 5,
-            position: "relative",
+            backgroundColor: "#342c24",
           },
         ]}
       >
-        <Image
-          source={{ uri: item.image }}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: 20,
-          }}
-        />
         <View
           style={{
-            marginHorizontal: 10,
-            position: "absolute",
+            position: "relative",
+            height: 180,
           }}
         >
-          <TouchableOpacity
+          <Image
+            source={{ uri: item.image }}
             style={{
-              backgroundColor: "#212121",
-              padding: 6,
+              width: "100%",
+              height: "100%",
               borderRadius: 20,
-              right: -160,
-              top: 10,
-              alignItems: "center",
+            }}
+          />
+          <View
+            style={{
+              marginHorizontal: 10,
+              position: "absolute",
             }}
           >
             <View
               style={{
-                backgroundColor: "#fcbc58",
-                width: 5,
-                aspectRatio: 1,
-                borderRadius: 20,
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                top: 15,
               }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#212121",
+                  padding: 3,
+                  width: 35,
+                  aspectRatio: 1,
+                  borderRadius: 20,
+
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <EvilIcons name="heart" size={24} color="red" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#212121",
+                  padding: 5,
+                  borderRadius: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fcbc58",
+                    paddingHorizontal: 5,
+                    fontSize: 12,
+                  }}
+                >
+                  New Bid 🔥
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View>
+          <Text
+            style={{
+              color: "#fff",
+              padding: 10,
+              fontSize: 16,
+              fontWeight: "bold",
+            }}
+          >
+            Post Work Personal
+          </Text>
+          <View
             style={[
-              buttonStyles(isDark ? "dark" : "light", "2xl").secondary,
-              { paddingVertical: 20 },
+              globalStyles(isDark ? "dark" : "light").containerFlexRowSpace,
+              { padding: 10 },
             ]}
           >
-            <Text style={[buttonStyles().secondaryText]}>Bid</Text>
-          </TouchableOpacity>
+            <Text
+              style={[
+                // body
+                typography().body,
+                typography(isDark ? "dark" : "light").primaryTextColor,
+                {
+                  fontWeight: "bold",
+                },
+              ]}
+            >
+              2.0 ETH
+            </Text>
+            <Text
+              style={[
+                typography(isDark ? "dark" : "light").textColor,
+                {
+                  fontWeight: "bold",
+                },
+              ]}
+            >
+              $4975.96
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: 10,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingBottom: 8,
+                }}
+              >
+                <Image
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  }}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    borderRadius: 20,
+                  }}
+                />
+                <Image
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  }}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    borderRadius: 20,
+                  }}
+                />
+                <Image
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1512646605205-78422b7c7896?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  }}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    borderRadius: 20,
+                  }}
+                />
+              </View>
+              <Text style={[typography(isDark ? "dark" : "light").textColor]}>
+                3 in stock
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                buttonStyles(isDark ? "dark" : "light", "2xl").secondaryReverse,
+              ]}
+            >
+              <Text style={[buttonStyles().secondaryText]}>Place a Bid</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );

@@ -104,11 +104,15 @@ const HomePage = () => {
           <TouchableOpacity
             style={{
               backgroundColor: "#212121",
-              padding: 6,
+              padding: 5,
+              width: 15,
+              aspectRatio: 1,
               borderRadius: 20,
               right: -160,
-              top: 10,
+              top: 15,
+
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <View
