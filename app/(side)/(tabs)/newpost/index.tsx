@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   FlatList,
+  ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
@@ -196,36 +197,24 @@ const NewPostPage = () => {
                   paddingBottom: 8,
                 }}
               >
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  }}
-                  style={{
-                    width: 25,
-                    height: 25,
-                    borderRadius: 20,
-                  }}
-                />
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  }}
-                  style={{
-                    width: 25,
-                    height: 25,
-                    borderRadius: 20,
-                  }}
-                />
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1512646605205-78422b7c7896?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  }}
-                  style={{
-                    width: 25,
-                    height: 25,
-                    borderRadius: 20,
-                  }}
-                />
+                {[
+                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "https://images.unsplash.com/photo-1512646605205-78422b7c7896?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                ].map((image, index) => (
+                  <Image
+                    key={index}
+                    source={{
+                      uri: image,
+                    }}
+                    style={{
+                      width: 25,
+                      height: 25,
+                      borderRadius: 20,
+                      left: -5 * index,
+                    }}
+                  />
+                ))}
               </View>
               <Text style={[typography(isDark ? "dark" : "light").textColor]}>
                 3 in stock
@@ -289,6 +278,42 @@ const NewPostPage = () => {
         >
           Explore
         </Text>
+        <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 10,
+            }}
+          >
+            {[
+              "All",
+              "Art",
+              "Fashion",
+              "Collectibles",
+              "Music",
+              "Domains",
+              "Virtual Worlds",
+            ].map((category, index) => (
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  borderRadius: 20,
+                  backgroundColor: index === 0 ? "#fcbc58" : "#212121",
+                  marginRight: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: index === 0 ? "#212121" : "#fff",
+                  }}
+                >
+                  {category}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
         <FlatList
           data={forumData}
           renderItem={renderItem}
