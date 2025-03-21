@@ -1,5 +1,6 @@
 import {
   Animated,
+  Button,
   Dimensions,
   FlatList,
   Image,
@@ -11,22 +12,10 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  buttonStyles,
-  globalStyles,
-  PaddingStyles,
-  spacing,
-  typography,
-} from "@/styles/styles";
+import { buttonStyles, globalStyles, typography } from "@/styles/styles";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useNavigation } from "expo-router";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
-import { TextInput } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import Button from "@/components/AppButton";
-import DropDownPicker from "react-native-dropdown-picker";
+
 import { Header } from "../profile";
 
 const { width } = Dimensions.get("window");
@@ -92,15 +81,55 @@ const MarketPlacePage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
   const [visible, setVisible] = useState(false);
 
-  const slideAnim = useState(new Animated.Value(-300))[0];
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  const animatedValue = useRef(new Animated.Value(1)).current;
+  const [displayValue, setDisplayValue] = useState("1");
 
   useEffect(() => {
-    Animated.timing(slideAnim, {
-      toValue: visible ? 0 : -300,
-      duration: 500,
-      useNativeDriver: true,
+    Animated.timing(animatedValue, {
+      toValue: 10,
+      duration: 5000,
+      useNativeDriver: false,
     }).start();
-  }, [visible]);
+
+    const listenerId = animatedValue.addListener(({ value }) => {
+      setDisplayValue(value.toFixed(0));
+    });
+
+    return () => {
+      animatedValue.removeListener(listenerId);
+    };
+  }, [animatedValue]);
+
+  useEffect(() => {
+    const blink = Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    blink.start();
+
+    // Stop the animation after 3 seconds
+    const timeout = setTimeout(() => {
+      blink.stop();
+    }, 2000);
+
+    return () => {
+      blink.stop(); // Cleanup on unmount
+      clearTimeout(timeout); // Clear the timeout
+    };
+  }, [opacity]);
   const renderItem = ({ item }) => {
     return (
       <View style={styles.card}>
@@ -176,10 +205,13 @@ const MarketPlacePage = () => {
         >
           <Text>Seller</Text>
         </TouchableOpacity>
-        <View
-          style={{
-            marginHorizontal: 25,
-          }}
+        <Animated.View
+          style={[
+            {
+              marginHorizontal: 25,
+            },
+            { opacity },
+          ]}
         >
           <Image
             source={require("../../../../assets/images/logo/logo.png")}
@@ -189,7 +221,7 @@ const MarketPlacePage = () => {
               tintColor: "white",
             }}
           />
-        </View>
+        </Animated.View>
         <TouchableOpacity
           style={[
             buttonStyles(isDark ? "dark" : "light", "xl").outline,
@@ -237,6 +269,17 @@ const MarketPlacePage = () => {
           // ))
         )}
       </View> */}
+
+      <Text
+        style={{
+          fontSize: 50,
+          fontWeight: "bold",
+          color: "white",
+        }}
+      >
+        {displayValue}
+      </Text>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
