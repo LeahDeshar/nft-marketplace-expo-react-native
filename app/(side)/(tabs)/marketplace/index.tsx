@@ -61,121 +61,36 @@ const forumData = [
     rating: 4.7,
   },
 ];
-const ItemButton = ({ isDark }) => {
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const items = [
-    { id: "1", name: "Explore All", icon: "search" },
-    { id: "2", name: "My Sales", icon: "cart" },
-    { id: "3", name: "My Purchase", icon: "list" },
-  ];
-
-  return (
-    <View
-      style={[
-        {
-          marginTop: 20,
-        },
-      ]}
-    >
-      <TouchableOpacity
-        style={{
-          position: "relative",
-        }}
-        onPress={() => setModalVisible(true)}
-      >
-        <View
-          style={[
-            buttonStyles(isDark ? "dark" : "light", "xl").primary,
-            {
-              width: 150,
-            },
-          ]}
-        >
-          <Text style={styles.buttonText}>Show Items</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "#272D2D",
-            position: "absolute",
-            borderRadius: 25,
-            zIndex: 50,
-            left: -9,
-          }}
-        >
-          <View
-            style={{
-              // #677777
-              backgroundColor: "#48d769",
-              borderRadius: 25,
-              margin: 4,
-              padding: 5,
-            }}
-          >
-            <Ionicons name="play" size={23} />
-          </View>
-        </View>
-      </TouchableOpacity>
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <FlatList
-              data={items}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity style={styles.modalItem}>
-                  <Ionicons name={item.icon} size={24} color="black" />
-                  <Text style={styles.modalItemText}>{item.name}</Text>
-                </TouchableOpacity>
-              )}
-            />
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
-};
-
+const creatorAndSellerData = [
+  {
+    id: "1",
+    name: "John Doe",
+    images: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAzyo7UIjEHLUVRGxuy1C7m-W16W6XL4UBw&s",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAzyo7UIjEHLUVRGxuy1C7m-W16W6XL4UBw&s",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAzyo7UIjEHLUVRGxuy1C7m-W16W6XL4UBw&s",
+    ],
+    price: "199.99",
+  },
+  {
+    id: "2",
+    name: "Jane Doe",
+    images: [
+      "https://static-01.daraz.com.np/p/9142ccf4acd35f0de87ca8991f5f6d11.jpg",
+    ],
+    price: "149.99",
+  },
+  {
+    id: "3",
+    name: "John Smith",
+    images: ["https://m.media-amazon.com/images/I/7161CULzh+L.jpg"],
+    price: "99.99",
+  },
+];
 const MarketPlacePage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
   const [visible, setVisible] = useState(false);
-  const [category, setCategory] = useState("event");
-  const navigation = useNavigation();
-
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-    { label: "Pear", value: "pear" },
-  ]);
-  // const slideAnim = useRef(new Animated.Value(-300)).current;
-  // useEffect(() => {
-  //   if (visible) {
-  //     Animated.timing(slideAnim, {
-  //       toValue: 0,
-  //       duration: 500,
-  //       useNativeDriver: true,
-  //     }).start();
-  //   } else {
-  //     Animated.timing(slideAnim, {
-  //       toValue: -300,
-  //       duration: 500,
-  //       useNativeDriver: true,
-  //     }).start();
-  //   }
-  // }, [visible, slideAnim]);
 
   const slideAnim = useState(new Animated.Value(-300))[0];
 
@@ -231,9 +146,6 @@ const MarketPlacePage = () => {
       <Header isDark={isDark} />
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
           marginTop: 25,
         }}
       >
@@ -243,189 +155,146 @@ const MarketPlacePage = () => {
             typography(isDark ? "dark" : "light").textColor,
           ]}
         >
-          Marketplace
+          List of top seller and creator
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: "grey",
-              borderRadius: 50,
-              padding: 5,
-            }}
-            onPress={() => setVisible(!visible)}
-          >
-            <Ionicons name="search" color="white" size={15} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialCommunityIcons
-              name="dots-vertical"
-              size={24}
-              color="white"
-            />
-          </TouchableOpacity>
-        </View>
       </View>
-      {visible && (
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              zIndex: 100,
 
-              width: width,
-              // height: "auto",
-              justifyContent: "center",
-              overflow: "hidden",
-              borderBottomLeftRadius: 100,
-              borderBottomRightRadius: 100,
-            },
+      <View
+        style={[
+          globalStyles(isDark ? "dark" : "light").containerFlexRow,
+          buttonStyles(isDark ? "dark" : "light", "2xl").secondary,
+          { padding: 24 },
+        ]}
+      >
+        <TouchableOpacity
+          style={[
+            buttonStyles(isDark ? "dark" : "light", "xl").primary,
             {
-              transform: [{ translateY: slideAnim }],
+              width: 150,
             },
           ]}
         >
-          <BlurView
-            intensity={50}
-            tint="light"
-            // style={{
-            //   position: "absolute",
-            //   zIndex: 100,
-
-            //   width: width,
-            //   height: 300,
-            //   justifyContent: "center",
-            //   padding: 15,
-            //   overflow: "hidden",
-            //   borderBottomLeftRadius: 100,
-            //   borderBottomRightRadius: 100,
-            // }}
+          <Text>Seller</Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            marginHorizontal: 25,
+          }}
+        >
+          <Image
+            source={require("../../../../assets/images/logo/logo.png")}
             style={{
-              flex: 1,
-              padding: 15,
-              paddingVertical: 50,
-              justifyContent: "center",
+              width: 20,
+              height: 20,
+              tintColor: "white",
+            }}
+          />
+        </View>
+        <TouchableOpacity
+          style={[
+            buttonStyles(isDark ? "dark" : "light", "xl").outline,
+            {
+              width: 150,
+            },
+          ]}
+        >
+          <Text
+            style={[buttonStyles(isDark ? "dark" : "light", "xl").outlineText]}
+          >
+            Creator
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* <View style={styles.container}>
+        {creatorAndSellerData.map(
+          (item) =>
+            item.images.map((image, index) => (
+              <View key={`${item.id}-${index}`} style={styles.card}>
+                <Image
+                  source={{ uri: image }}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.flatListContent}>
+                  <Text style={styles.cardTitle}>{item.name}</Text>
+                  <Text style={styles.cardPrice}>${item.price}</Text>
+                </View>
+              </View>
+            ))
+          // item.images.map((image, index) => (
+          //   <Image
+          //     key={`${item.id}-${index}`}
+          //     src={image}
+          //     alt={item.name}
+          //     height={150}
+          //     width={160}
+          //     style={{
+          //       borderRadius: 8,
+          //       marginRight: 10,
+          //     }}
+          //   />
+          // ))
+        )}
+      </View> */}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingVertical: 30,
+          paddingBottom: 90,
+        }}
+      >
+        {creatorAndSellerData.map((item) => (
+          <View
+            key={item.id}
+            style={{
+              marginBottom: 20,
             }}
           >
             <Text
-              style={[
-                typography(isDark ? "dark" : "light").textColor,
-                typography().heading3,
-                {
-                  textAlign: "center",
-                  paddingVertical: 10,
-                },
-              ]}
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
             >
-              Search For The Best
+              {item.name}
             </Text>
-            <TextInput
-              placeholder="Search..."
+            <Text
               style={{
-                backgroundColor: "#ffffff",
-                paddingVertical: 15,
-
-                padding: 10,
-                paddingLeft: 20,
-                borderRadius: 25,
-                marginBottom: 10,
+                fontSize: 16,
+                color: "gray",
               }}
-              placeholderTextColor={"#363636"}
+            >
+              ${item.price}
+            </Text>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={item.images}
+              keyExtractor={(image, index) => `${item.id}-${index}`}
+              renderItem={({ item: image }) => (
+                <View
+                  style={{
+                    marginRight: 10,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    elevation: 5,
+                  }}
+                >
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 230,
+                      height: 150,
+                      borderRadius: 15,
+                    }}
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
             />
-            {/* <Picker
-              mode="dialog"
-              selectedValue={category}
-              onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-            >
-              <Picker.Item label="Event" value="event" />
-              <Picker.Item
-                label="Lost object or animal"
-                value="lost object or animal"
-              />
-              <Picker.Item label="Sell or exchange" value="sell or exchange" />
-            </Picker> */}
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingHorizontal: 15,
-              }}
-            >
-              <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-                placeholder={"Choose a fruit."}
-              />
-            </View>
-            <View
-              style={[
-                { flexDirection: "row", justifyContent: "space-between" },
-              ]}
-            >
-              <Button
-                style={[buttonStyles().primary]}
-                title="Search"
-                onPress={() => console.log("Searching...")}
-              />
-              <Button
-                style={[buttonStyles().secondary]}
-                title="Cancel"
-                onPress={() => setVisible(false)}
-              />
-            </View>
-          </BlurView>
-        </Animated.View>
-      )}
-      <ItemButton isDark={isDark} />
-
-      <ScrollView>
-        <View style={styles.container}>
-          <Text
-            style={[
-              typography().heading2,
-              typography(isDark ? "dark" : "light").textColor,
-            ]}
-          >
-            Forum
-          </Text>
-          <FlatList
-            data={forumData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.flatListContent}
-          />
-        </View>
-        <View style={styles.container}>
-          <Text
-            style={[
-              typography().heading2,
-              typography(isDark ? "dark" : "light").textColor,
-            ]}
-          >
-            News
-          </Text>
-          <FlatList
-            data={forumData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.flatListContent}
-          />
-        </View>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
