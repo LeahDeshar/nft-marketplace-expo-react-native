@@ -21,6 +21,7 @@ import {
 } from "@/styles/styles";
 import { Picker } from "@react-native-picker/picker";
 import DropDownPicker from "react-native-dropdown-picker";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
 
 const NewProfilePage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
@@ -82,115 +83,207 @@ const NewProfilePage = () => {
   };
 
   return (
-    <View
-      style={[
-        globalStyles(isDark ? "dark" : "light").containerFlex,
-        { padding: 24 },
-      ]}
-    >
-      <Header isDark={isDark} />
+    // <View
+    //   style={[
+    //     globalStyles(isDark ? "dark" : "light").containerFlex,
+    //     { padding: 24 },
+    //   ]}
+    // >
+    //   <Header isDark={isDark} />
 
-      <ImageUpload
-        selectedImage={selectedImage}
-        handleSelectImage={handleSelectImage}
-      />
+    //   <ImageUpload
+    //     selectedImage={selectedImage}
+    //     handleSelectImage={handleSelectImage}
+    //   />
 
-      <TextInput
-        placeholder="Enter Post Title"
-        value={postTitle}
-        onChangeText={setPostTitle}
-        style={[styles.inputField, { marginTop: 20 }]}
-      />
+    //   <TextInput
+    //     placeholder="Enter Post Title"
+    //     value={postTitle}
+    //     onChangeText={setPostTitle}
+    //     style={[styles.inputField, { marginTop: 20 }]}
+    //   />
 
-      <TextInput
-        placeholder="Describe your post"
-        value={description}
-        onChangeText={setDescription}
-        style={[styles.inputField]}
-        multiline
-      />
+    //   <TextInput
+    //     placeholder="Describe your post"
+    //     value={description}
+    //     onChangeText={setDescription}
+    //     style={[styles.inputField]}
+    //     multiline
+    //   />
 
-      <View
-        style={{
-          paddingVertical: 20,
-        }}
-      >
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          multiple={true}
-          placeholder={"Select the category"}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <TextInput
-          placeholder="Price (if applicable)"
-          value={price}
-          onChangeText={setPrice}
-          keyboardType="numeric"
-          style={styles.inputField}
-          placeholderTextColor={"grey"}
-        />
-        <View style={[buttonStyles().outline, globalStyles().containerFlexRow]}>
-          <Text
-            style={[
-              styles.pinToggleText,
-              typography(isDark ? "dark" : "light").textColor,
-            ]}
-          >
-            Pin Post
-          </Text>
-          <TouchableOpacity
-            onPress={() => setIsPinned((prev) => !prev)}
-            style={styles.pinToggleButton}
-          >
-            <Ionicons
-              name={isPinned ? "pin" : "pin-outline"}
-              size={24}
-              color={isPinned ? "gold" : "gray"}
-            />
-          </TouchableOpacity>
+    //   <View
+    //     style={{
+    //       paddingVertical: 20,
+    //     }}
+    //   >
+    //     <DropDownPicker
+    //       open={open}
+    //       value={value}
+    //       items={items}
+    //       setOpen={setOpen}
+    //       setValue={setValue}
+    //       setItems={setItems}
+    //       multiple={true}
+    //       placeholder={"Select the category"}
+    //     />
+    //   </View>
+    //   <View style={styles.pickerContainer}>
+    //     <TextInput
+    //       placeholder="Price (if applicable)"
+    //       value={price}
+    //       onChangeText={setPrice}
+    //       keyboardType="numeric"
+    //       style={styles.inputField}
+    //       placeholderTextColor={"grey"}
+    //     />
+    //     <View style={[buttonStyles().outline, globalStyles().containerFlexRow]}>
+    //       <Text
+    //         style={[
+    //           styles.pinToggleText,
+    //           typography(isDark ? "dark" : "light").textColor,
+    //         ]}
+    //       >
+    //         Pin Post
+    //       </Text>
+    //       <TouchableOpacity
+    //         onPress={() => setIsPinned((prev) => !prev)}
+    //         style={styles.pinToggleButton}
+    //       >
+    //         <Ionicons
+    //           name={isPinned ? "pin" : "pin-outline"}
+    //           size={24}
+    //           color={isPinned ? "gold" : "gray"}
+    //         />
+    //       </TouchableOpacity>
+    //     </View>
+    //   </View>
+
+    //   {/* Submit Button */}
+    //   <TouchableOpacity onPress={handlePostSubmit} style={styles.submitButton}>
+    //     <Text style={styles.submitButtonText}>Submit Post</Text>
+    //   </TouchableOpacity>
+    // </View>
+    <View style={{ flex: 1 }}>
+      <View style={{ position: "relative" }}>
+        <View
+          style={{
+            position: "absolute",
+            top: 50,
+            zIndex: 10,
+            paddingHorizontal: 24,
+            backgroundColor: "transparent",
+          }}
+        >
+          <Header isDark={isDark} />
         </View>
       </View>
 
-      {/* Submit Button */}
-      <TouchableOpacity onPress={handlePostSubmit} style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>Submit Post</Text>
-      </TouchableOpacity>
+      <ParallaxScrollView
+        headerImage={
+          <Image
+            source={{
+              uri: "https://images.unsplash.com/photo-1621193596485-90a3c38023f5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            }}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+            resizeMode="cover"
+          />
+        }
+        headerBackgroundColor={{ dark: "#000", light: "#fff" }}
+      >
+        <View>
+          <View
+            style={{
+              top: -100,
+              zIndex: 10,
+            }}
+          >
+            <ImageUpload
+              selectedImage={selectedImage}
+              handleSelectImage={handleSelectImage}
+            />
+          </View>
+
+          <TextInput
+            placeholder="Enter Post Title"
+            value={postTitle}
+            onChangeText={setPostTitle}
+            style={[styles.inputField, { marginTop: 20 }]}
+          />
+
+          <TextInput
+            placeholder="Describe your post"
+            value={description}
+            onChangeText={setDescription}
+            style={[styles.inputField]}
+            multiline
+          />
+
+          <View
+            style={{
+              paddingVertical: 20,
+            }}
+          >
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              multiple={true}
+              placeholder={"Select the category"}
+            />
+          </View>
+          <View style={styles.pickerContainer}>
+            <TextInput
+              placeholder="Price (if applicable)"
+              value={price}
+              onChangeText={setPrice}
+              keyboardType="numeric"
+              style={styles.inputField}
+              placeholderTextColor={"grey"}
+            />
+            <View
+              style={[buttonStyles().outline, globalStyles().containerFlexRow]}
+            >
+              <Text
+                style={[
+                  styles.pinToggleText,
+                  typography(isDark ? "dark" : "light").textColor,
+                ]}
+              >
+                Pin Post
+              </Text>
+              <TouchableOpacity
+                onPress={() => setIsPinned((prev) => !prev)}
+                style={styles.pinToggleButton}
+              >
+                <Ionicons
+                  name={isPinned ? "pin" : "pin-outline"}
+                  size={24}
+                  color={isPinned ? "gold" : "gray"}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            onPress={handlePostSubmit}
+            style={styles.submitButton}
+          >
+            <Text style={styles.submitButtonText}>Submit Post</Text>
+          </TouchableOpacity>
+        </View>
+      </ParallaxScrollView>
     </View>
   );
 };
 
 export const Header = ({ isDark }) => {
   return (
-    // <View
-    //   style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
-    // >
-    //   <View
-    //     style={[
-    //       globalStyles(isDark ? "dark" : "light", 0, 0, 12).containerFlexRow,
-    //     ]}
-    //   >
-    //     <Image
-    //       source={{
-    //         uri: "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=",
-    //       }}
-    //       style={styles.profileImage}
-    //     />
-    //     <TouchableOpacity>
-    //       <Ionicons name="notifications" size={25} color="white" />
-    //     </TouchableOpacity>
-    //   </View>
-    //   <View>
-    //     <Text style={[typography(isDark ? "dark" : "light").textColor]}>
-    //       Good Morning
-    //     </Text>
-    //   </View>
-    // </View>
     <View
       style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
     >
@@ -392,29 +485,24 @@ const styles = {
   imageUploadContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
   },
   imageUploadButton: {
-    width: 210,
-    height: 210,
+    width: 150,
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    borderWidth: 2,
-    borderColor: "#ccc",
-    backgroundColor: "#f0f0f0",
   },
   imageUploadInnerContainer: {
-    width: 202,
-    height: 202,
+    width: "100%",
+    height: "100%",
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ddd",
   },
   selectedImage: {
-    width: 190,
-    height: 190,
+    width: "100%",
+    height: "100%",
     borderRadius: 100,
   },
   imageSelectedText: {
