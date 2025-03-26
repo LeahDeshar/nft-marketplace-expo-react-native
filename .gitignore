@@ -38,7 +38,7 @@ yarn-error.*
 app-example
 
 
-components
-styles
-redux
+# components
+# styles
+# redux
 config

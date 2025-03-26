@@ -23,6 +23,15 @@ import { Picker } from "@react-native-picker/picker";
 import DropDownPicker from "react-native-dropdown-picker";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import Button from "@/components/AppButton";
+import {
+  Defs,
+  LinearGradient,
+  Mask,
+  Path,
+  Rect,
+  Stop,
+  Svg,
+} from "react-native-svg";
 
 const NewProfilePage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
@@ -509,6 +518,11 @@ const styles = {
   imageUploadContainer: {
     justifyContent: "center",
     alignItems: "center",
+    // borderColor: "#ccc",
+    // borderWidth: 1,
+    // borderRadius: 100,
+    // width: 150,
+    // height: 150,
   },
   imageUploadButton: {
     width: 150,
@@ -516,6 +530,13 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
+    backgroundColor: "#342c24",
+    // shadow
+    shadowColor: "#342c24",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4,
   },
   imageUploadInnerContainer: {
     width: "100%",
