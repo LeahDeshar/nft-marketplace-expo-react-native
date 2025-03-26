@@ -23,15 +23,6 @@ import { Picker } from "@react-native-picker/picker";
 import DropDownPicker from "react-native-dropdown-picker";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import Button from "@/components/AppButton";
-import {
-  Defs,
-  LinearGradient,
-  Mask,
-  Path,
-  Rect,
-  Stop,
-  Svg,
-} from "react-native-svg";
 
 const NewProfilePage = () => {
   const isDark = useSelector((state: RootState) => state.theme.dark);
@@ -214,15 +205,14 @@ const NewProfilePage = () => {
               selectedImage={selectedImage}
               handleSelectImage={handleSelectImage}
             />
-          </View>
 
-          <Text>Bessie Cooper</Text>
-          <Text>98fsdf53rfsd3343ds</Text>
-          <Button
-            title="Edit Profile"
-            onPress={() => navigation.navigate("EditProfile")}
-          />
-          {/* save and three dot icons */}
+            <Text>Bessie Cooper</Text>
+            <Text>98fsdf53rfsd3343ds</Text>
+            <Button
+              title="Edit Profile"
+              onPress={() => navigation.navigate("EditProfile")}
+            />
+          </View>
           <View
             style={{
               flexDirection: "row",
