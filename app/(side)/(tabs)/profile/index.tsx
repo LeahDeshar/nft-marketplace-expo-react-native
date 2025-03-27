@@ -8,7 +8,12 @@ import {
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Feather,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { RootState } from "@/redux/store";
@@ -62,7 +67,7 @@ const NewProfilePage = () => {
 
       if (!pickerResult.canceled && pickerResult.assets.length > 0) {
         const firstAsset = pickerResult.assets[0];
-        setSelectedImage(firstAsset.uri); // Update state with selected image URI
+        setSelectedImage(firstAsset.uri);
       }
     } catch (error) {
       console.error("Error picking an image:", error);
@@ -206,106 +211,63 @@ const NewProfilePage = () => {
               handleSelectImage={handleSelectImage}
             />
 
-            <Text>Bessie Cooper</Text>
-            <Text>98fsdf53rfsd3343ds</Text>
-            <Button
-              title="Edit Profile"
-              onPress={() => navigation.navigate("EditProfile")}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 20,
-            }}
-          >
-            <TouchableOpacity>
-              <Text>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Ionicons name="ellipsis-horizontal" size={24} />
-            </TouchableOpacity>
-          </View>
-
-          <TextInput
-            placeholder="Enter Post Title"
-            value={postTitle}
-            onChangeText={setPostTitle}
-            style={[styles.inputField, { marginTop: 20 }]}
-          />
-
-          <TextInput
-            placeholder="Describe your post"
-            value={description}
-            onChangeText={setDescription}
-            style={[styles.inputField]}
-            multiline
-          />
-
-          <View
-            style={{
-              paddingVertical: 20,
-            }}
-          >
-            <DropDownPicker
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              multiple={true}
-              placeholder={"Select the category"}
-            />
-          </View>
-          <View style={styles.pickerContainer}>
-            <TextInput
-              placeholder="Price (if applicable)"
-              value={price}
-              onChangeText={setPrice}
-              keyboardType="numeric"
-              style={styles.inputField}
-              placeholderTextColor={"grey"}
-            />
             <View
-              style={[buttonStyles().outline, globalStyles().containerFlexRow]}
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <Text
-                style={[
-                  styles.pinToggleText,
-                  typography(isDark ? "dark" : "light").textColor,
-                ]}
-              >
-                Pin Post
+              <Text style={[typography().textColor]}>Bessie Cooper</Text>
+              <Text style={[globalStyles().opacityText]}>
+                98fsdf53rfsd3343ds
               </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 20,
+                marginBottom: 20,
+              }}
+            >
               <TouchableOpacity
-                onPress={() => setIsPinned((prev) => !prev)}
-                style={styles.pinToggleButton}
+                style={[
+                  buttonStyles(isDark ? "dark" : "light", "xl").secondary,
+                ]}
+                onPress={() => navigation.navigate("EditProfile")}
+              >
+                <Text style={[typography().primaryTextColor]}>
+                  Edit Profile{" "}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[buttonStyles(isDark ? "dark" : "light", "2xl").outline]}
+              >
+                <AntDesign
+                  name="upload"
+                  style={[typography().primaryTextColor]}
+                  size={15}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[buttonStyles(isDark ? "dark" : "light", "2xl").outline]}
               >
                 <Ionicons
-                  name={isPinned ? "pin" : "pin-outline"}
-                  size={24}
-                  color={isPinned ? "gold" : "gray"}
+                  name="ellipsis-horizontal"
+                  style={[typography().primaryTextColor]}
+                  size={15}
                 />
               </TouchableOpacity>
             </View>
           </View>
-
-          <TouchableOpacity
-            onPress={handlePostSubmit}
-            style={styles.submitButton}
-          >
-            <Text style={styles.submitButtonText}>Submit Post</Text>
-          </TouchableOpacity>
         </View>
       </ParallaxScrollView>
     </View>
   );
 };
 
-export const Header = ({ isDark }) => {
+export const Header = ({ isDark }: { isDark: boolean }) => {
   return (
     <View
       style={[globalStyles(isDark ? "dark" : "light").containerFlexRowSpace]}
@@ -416,12 +378,37 @@ export const Header = ({ isDark }) => {
   );
 };
 
-const ImageUpload = ({ selectedImage, handleSelectImage }) => {
+interface ImageUploadProps {
+  selectedImage: string | null;
+  handleSelectImage: (image: string) => void;
+}
+const ImageUpload = ({
+  selectedImage,
+  handleSelectImage,
+}: ImageUploadProps) => {
   return (
-    <View style={styles.imageUploadContainer}>
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <TouchableOpacity
         onPress={handleSelectImage}
-        style={styles.imageUploadButton}
+        style={{
+          width: 150,
+          height: 150,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 100,
+          backgroundColor: "#2c2c2c",
+
+          shadowColor: "#5a524c",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 10,
+          elevation: 4,
+        }}
       >
         <View style={styles.imageUploadInnerContainer}>
           {selectedImage ? (
@@ -495,39 +482,13 @@ const styles = {
   pinToggleButton: {
     padding: 2,
   },
-  submitButton: {
-    backgroundColor: "#007bff",
-    padding: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
+  submitButton: {},
   submitButtonText: {
     color: "white",
     fontSize: 18,
   },
-  imageUploadContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    // borderColor: "#ccc",
-    // borderWidth: 1,
-    // borderRadius: 100,
-    // width: 150,
-    // height: 150,
-  },
-  imageUploadButton: {
-    width: 150,
-    height: 150,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    backgroundColor: "#342c24",
-    // shadow
-    shadowColor: "#342c24",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    elevation: 4,
-  },
+  imageUploadContainer: {},
+  imageUploadButton: {},
   imageUploadInnerContainer: {
     width: "100%",
     height: "100%",

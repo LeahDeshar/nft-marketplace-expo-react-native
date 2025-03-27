@@ -52,6 +52,8 @@ export const globalStyles = (
       backgroundColor: "#007bff",
       padding: 10,
       borderRadius: 5,
+
+      // shadowColor: "#2c2c2c",
     },
   });
 };
