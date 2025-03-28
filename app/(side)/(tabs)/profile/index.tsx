@@ -222,7 +222,7 @@ const NewProfilePage = () => {
                 98fsdf53rfsd3343ds
               </Text>
             </View>
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -259,7 +259,7 @@ const NewProfilePage = () => {
                   size={15}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       </ParallaxScrollView>
